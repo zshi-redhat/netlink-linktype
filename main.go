@@ -18,4 +18,14 @@ func main() {
 			fmt.Printf("device link type is: %s/%s\n", dev, link.Attrs().EncapType)
 		}
 	}
+	for _, dev := range arg {
+		link, err := netlink.LinkByName(dev)
+		if err != nil {
+			fmt.Printf("error getting link attributes for net device %s: %v\n", dev, err)
+		}
+		err = netlink.LinkDel(link)
+		if err != nil {
+			fmt.Printf("failed to delete link: %s\n", dev)
+		}
+	}
 }
